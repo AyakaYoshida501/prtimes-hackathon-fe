@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import { PressData } from "../../models/press_response";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CustomButton from "../../components/CustomButton";
-import dynamic from "next/dynamic";
 import { AudioPlayer } from "../../components/AudioPlayer";
 
 export default function PressRelease() {
