@@ -13,9 +13,9 @@ type Props = {
 export function AudioPlayer({ url, title, className = "m-3" }: Props) {
   return (
     <Row className={className}>
-      <Col>
-        {title && <p className="fw-bold mt-3">{title}</p>}
-        <Player url={url} controls width="50%" height="90px" />
+      {title && <p className="fw-bold mt-3">{title}</p>}
+      <Col className="w-100 d-flex justify-content-center">
+        <Player url={url} controls width="100%" height="90px" />
       </Col>
     </Row>
   );
