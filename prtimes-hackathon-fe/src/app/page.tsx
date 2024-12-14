@@ -7,12 +7,12 @@ import PressList from "../components/PressList";
 export default async function TopPage() {
   const data = await getPressReleases();
   return (
-    <>
+    <main className="m-3">
       <Link href="/podcasts">
         <CustomButton variant="secondary" text="podcastへ" />
       </Link>
       <PressList data={data} />
-    </>
+    </main>
   );
 }
 
