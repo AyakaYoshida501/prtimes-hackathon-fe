@@ -5,9 +5,11 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { PressData } from "../../../models/press_response";
 import Image from "../../../components/Image";
+import { AudioPlayer } from "../../../components/AudioPlayer";
 
 export default function PressDetail() {
   const [press, setPress] = useState<PressData>();
+  const [podcastUrl, setPodcastUrl] = useState<string>("");
   const params = useParams();
   const id = params.id;
   const getPressReleases = async () => {
@@ -25,8 +27,19 @@ export default function PressDetail() {
           "全体的には、例えばスティールランキング1位の富山に対して、ターンオーバーが多く出てしまった点は、明日に向けての反省点として挙げられます。その中で、ペイントエリアでの得点が多い富山の強力なインサイド陣に対して、スミス選手やバーレル選手が上手に守りながら、しっかりと抑え込むことが出来たことは非常に良かったです。\nディフェンス面全般でも、トーマス・ケネディ選手に連続3Pシュートを決められましたが、かなり頑張って出来ていると思って評価しています。\n明日の試合は、もう少し彼の部分はケアしたいと思うので、スイッチ時のディフェンスも含めて、修正して臨みたいと思っています。\n富山は、ほんとうに懐かしいところで、たくさんのブースターに声をかけられましたし、たくさんのお客さんがいて雰囲気がすごく良い場所です。こういう雰囲気の中でゲームができて嬉しかったですし、チームとしても、僕とスミス選手、アシスタントコーチの福島コーチも以前、富山でヘッドコーチをしていましたし、中村選手も特別指定選手でいましたし、ブラウン選手や橋本選手もいて、富山にゆかりのある選手が福岡にはたくさんいます。富山の選手にも知っている顔がたくさんいて、みんな声かけてくれたのが嬉しかったです。",
         thumbnailUrl: "https://www.lettuceclub.net/i/N1/1062998/10607123.jpg",
       };
+      //   const podcastRes = await fetch(
+      //     `https://article-to-podcast-90199894008.asia-northeast1.run.app/podcasts/${id}`
+      //   );
+      //   if (!podcastRes.ok) {
+      //     throw new Error("podcast取得時にサーバーエラーが発生しました");
+      //   }
+      //   const podcast = await podcastRes.json();
+      //   setPodcastUrl(podcast);
       //   setPress(data);
       setPress(tmpData);
+      setPodcastUrl(
+        "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+      );
     } catch (e) {
       alert("データの取得に失敗しました");
     }
@@ -61,6 +74,7 @@ export default function PressDetail() {
           </p>
         ))}
       </Col>
+      <AudioPlayer url={podcastUrl} className="mb-3" title="ポッドキャスト" />
     </Row>
   );
 }

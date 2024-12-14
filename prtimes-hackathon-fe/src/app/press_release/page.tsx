@@ -6,7 +6,7 @@ import { PressData } from "../../models/press_response";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CustomButton from "../../components/CustomButton";
 import dynamic from "next/dynamic";
-const AudioPlayer = dynamic(() => import("react-player"), { ssr: false });
+import { AudioPlayer } from "../../components/AudioPlayer";
 
 export default function PressRelease() {
   const [press, setPress] = useState<PressData>({
@@ -180,12 +180,10 @@ export default function PressRelease() {
             <CustomButton variant="primary" text="作成" />
           </Col>
         </Row>
-        <Row className="m-3">
-          <Col>
-            音声
-            <AudioPlayer url={podcastUrl} controls width="50%" height="90px" />
-          </Col>
-        </Row>
+        <AudioPlayer
+          url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+          title="作成されたポッドキャスト"
+        />
       </Card>
     </>
   );
