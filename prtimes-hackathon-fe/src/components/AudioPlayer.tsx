@@ -1,33 +1,22 @@
 "use client";
-
-import React, { useState } from "react";
+import React from "react";
+import { Row, Col } from "react-bootstrap";
+import dynamic from "next/dynamic";
+const Player = dynamic(() => import("react-player"), { ssr: false });
 
 type Props = {
   url: string;
   title?: string;
+  className?: string;
 };
 
-export function AudioPlayer({ url, title }: Props) {
-  const [playing, setPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [played, setPlayed] = useState(0);
-  const handlePlayPause = () => {
-    setPlaying(!playing);
-  };
-
+export function AudioPlayer({ url, title, className = "m-3" }: Props) {
   return (
-    <div className="space-y-2">
-      <Slider
-        value={[played]}
-        onValueChange={onSeek}
-        max={1}
-        step={0.001}
-        className="flex-1"
-      />
-      <div className="flex justify-between text-sm text-muted-foreground">
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(duration)}</span>
-      </div>
-    </div>
+    <Row className={className}>
+      <Col>
+        {title && <p className="fw-bold mt-3">{title}</p>}
+        <Player url={url} controls width="50%" height="90px" />
+      </Col>
+    </Row>
   );
 }
