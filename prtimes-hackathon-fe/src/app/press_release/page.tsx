@@ -13,7 +13,7 @@ export default function PressRelease() {
     uid: "uid-uid-uid-1",
     title: "",
     description: "",
-    thumbnailUrl: "",
+    image: "",
     sns_url: "",
   });
   const [podcastUrl, setPodcastUrl] = useState<string>("");
@@ -29,9 +29,10 @@ export default function PressRelease() {
           },
           body: JSON.stringify({
             title: press.title,
-            uid: press.uid,
             description: press.description,
-            thumbnail: press.thumbnailUrl,
+            sns_url: press.sns_url,
+            uid: press.uid,
+            image: [press.image],
           }),
         }
       );
@@ -143,7 +144,7 @@ export default function PressRelease() {
                   type="text"
                   name="thumbnailUrl"
                   placeholder="サムネイルURL"
-                  value={press.thumbnailUrl}
+                  value={press.image}
                   onChange={onChange}
                 />
               </Form.Group>

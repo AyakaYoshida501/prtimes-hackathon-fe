@@ -3,7 +3,7 @@ export type PressData = {
   uid: string;
   title: string;
   description: string;
-  thumbnailUrl: string;
+  image: string;
   sns_url?: string;
 };
 
