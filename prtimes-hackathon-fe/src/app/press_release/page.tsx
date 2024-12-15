@@ -9,6 +9,7 @@ import { AudioPlayer } from "../../components/AudioPlayer";
 
 export default function PressRelease() {
   const [press, setPress] = useState<PressData>({
+    _id: "",
     id: 0,
     uid: "",
     title: "",
@@ -50,9 +51,16 @@ export default function PressRelease() {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPress({ ...press, [e.target.name]: e.target.value });
   };
+  const dropUnnecessary = (description: string) => {
+    const ret = description
+      .replace(/\r?\n/g, "")
+      .replace(/\s+/g, "")
+      .replace(/【[^】]*】/g, "");
+    console.log("ret", ret);
+    return ret;
+  };
 
   const makePodcast = async () => {
-    console.log(press);
     try {
       const res = await fetch(
         "https://article-to-podcast-90199894008.asia-northeast1.run.app/podcasts",
@@ -62,9 +70,9 @@ export default function PressRelease() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            press_id: press.id,
+            press_id: press._id,
             uid: press.uid,
-            article: press.description,
+            article: dropUnnecessary(press.description),
           }),
         }
       );
@@ -72,34 +80,10 @@ export default function PressRelease() {
         throw new Error("サーバーエラーが発生しました");
       }
       const data = await res.json();
-      setPodcastUrl(data.url);
+      setPodcastUrl(data.audio_url);
     } catch (e) {
       console.error(e);
       alert("登録に失敗しました");
-    }
-  };
-
-  const uploadMp3 = async (file: File) => {
-    if (!file) {
-      return;
-    }
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("http://localhost:3000/mp3", {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          mode: "cors",
-        },
-        body: formData,
-      });
-      if (!res.ok) {
-        throw new Error("サーバーエラーが発生しました");
-      }
-    } catch (e) {
-      console.error(e);
-      alert("アップロードに失敗しました");
     }
   };
 
@@ -174,26 +158,6 @@ export default function PressRelease() {
               text="作成"
               callback={makePodcast}
             />
-          </Col>
-        </Row>
-        <Row className="m-3">
-          <Col>
-            <Form.Group>
-              <Form.Label>音声データをアップロードする</Form.Label>
-              <Form.Control
-                type="file"
-                name="file"
-                onChange={(e) => {
-                  const files = (e.target as HTMLInputElement).files;
-                  if (files && files.length > 0) {
-                    uploadMp3(files[0]);
-                  }
-                }}
-              />
-            </Form.Group>
-          </Col>
-          <Col className="d-flex justify-content-end mt-3 mb-3">
-            <CustomButton variant="primary" text="作成" />
           </Col>
         </Row>
         <AudioPlayer url={podcastUrl} title="作成されたポッドキャスト" />

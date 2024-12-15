@@ -1,5 +1,6 @@
 export type PressData = {
-  id: number;
+  _id?: string;
+  id?: number;
   uid: string;
   title: string;
   description: string;
