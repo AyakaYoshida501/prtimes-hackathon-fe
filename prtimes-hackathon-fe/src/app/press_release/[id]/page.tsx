@@ -60,8 +60,8 @@ export default function PressDetail() {
           <Col>
             <Image
               className="mb-3"
-              src={press.image}
-              alt={press.image}
+              src={press.image[0]}
+              alt={press.image[0]}
               width="100%"
             />
           </Col>
