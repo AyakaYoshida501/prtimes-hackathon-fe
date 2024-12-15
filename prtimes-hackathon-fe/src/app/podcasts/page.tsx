@@ -34,12 +34,12 @@ export default function PodCast(): React.ReactElement {
   }, []);
   return (
     <Row className="mx-auto" style={{ width: "60%" }}>
-      <Col className="w-100 text-center">
+      <Col className="w-100">
         {podcast.map((p) => (
           <Card key={p.press_id} className="m-3">
-            <Card.Header>{p.title}</Card.Header>
+            <Card.Header className="text-center">{p.title}</Card.Header>
             <Card.Body>
-              <AudioPlayer url={p.audio_url} title={p.title} />
+              <AudioPlayer url={p.audio_url} title={p.summary} />
             </Card.Body>
           </Card>
         ))}

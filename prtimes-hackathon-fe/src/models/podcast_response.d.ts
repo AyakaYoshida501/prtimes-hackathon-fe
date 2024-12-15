@@ -3,5 +3,6 @@ export type PodCast = {
   title: string;
   scripts: [];
   audio_url: string;
+  summary: string;
 };
 export type PodCasts = PodCast[];

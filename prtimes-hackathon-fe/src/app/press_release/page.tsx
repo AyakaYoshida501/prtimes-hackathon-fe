@@ -10,7 +10,7 @@ import { AudioPlayer } from "../../components/AudioPlayer";
 export default function PressRelease() {
   const [press, setPress] = useState<PressData>({
     id: 0,
-    uid: "uid-uid-uid-1",
+    uid: "",
     title: "",
     description: "",
     image: "",
@@ -18,6 +18,7 @@ export default function PressRelease() {
   });
   const [podcastUrl, setPodcastUrl] = useState<string>("");
 
+  console.log(press);
   const makePressRelease = async () => {
     try {
       const res = await fetch(
@@ -31,13 +32,12 @@ export default function PressRelease() {
             title: press.title,
             description: press.description,
             sns_url: press.sns_url,
-            uid: press.uid,
+            uid: "uuid1",
             image: [press.image],
           }),
         }
       );
       if (!res.ok) {
-        console.log(res);
         throw new Error("サーバーエラーが発生しました");
       }
       const data: PressData = await res.json();
@@ -52,6 +52,7 @@ export default function PressRelease() {
   };
 
   const makePodcast = async () => {
+    console.log(press);
     try {
       const res = await fetch(
         "https://article-to-podcast-90199894008.asia-northeast1.run.app/podcasts",
@@ -89,6 +90,7 @@ export default function PressRelease() {
         method: "POST",
         headers: {
           "Content-Type": "multipart/form-data",
+          mode: "cors",
         },
         body: formData,
       });
@@ -107,17 +109,17 @@ export default function PressRelease() {
         <Card.Header>プレスリリース入稿</Card.Header>
         <Row>
           <Col>
-            <Form.Group className="m-3">
-              <Form.Label>Xの投稿URL</Form.Label>
-              <Form.Control
-                type="text"
-                name="user_name"
-                placeholder="投稿URL"
-                value={press.sns_url}
-                onChange={onChange}
-              />
-            </Form.Group>
-            <Form onSubmit={makePressRelease}>
+            <Form>
+              <Form.Group className="m-3">
+                <Form.Label>Xの投稿URL</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="sns_url"
+                  placeholder="投稿URL"
+                  value={press.sns_url}
+                  onChange={onChange}
+                />
+              </Form.Group>
               <Form.Group className="m-3">
                 <Form.Label>タイトル</Form.Label>
                 <Form.Control
@@ -143,7 +145,7 @@ export default function PressRelease() {
                 <Form.Label>サムネイル</Form.Label>
                 <Form.Control
                   type="text"
-                  name="thumbnailUrl"
+                  name="image"
                   placeholder="サムネイルURL"
                   value={press.image}
                   onChange={onChange}
@@ -151,7 +153,11 @@ export default function PressRelease() {
               </Form.Group>
               <Row className="m-3">
                 <Col className="d-flex justify-content-center">
-                  <CustomButton variant="primary" text="作成する" />
+                  <CustomButton
+                    variant="primary"
+                    text="作成する"
+                    callback={makePressRelease}
+                  />
                 </Col>
               </Row>
             </Form>
