@@ -45,7 +45,10 @@ export default function PressList({ data }: Props): React.ReactElement {
         >
           <Card>
             <Ratio aspectRatio="16x9">
-              <Card.Img variant="top" src={d.image ? d.image[0] : d.image[1]} />
+              <Card.Img
+                variant="top"
+                src={d.image[1] ? d.image[1] : d.image[0]}
+              />
             </Ratio>
             <Card.Body>
               <Card.Title className="fs-6 fw-bold">

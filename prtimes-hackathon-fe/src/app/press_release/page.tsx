@@ -142,7 +142,7 @@ export default function PressRelease() {
                   type="text"
                   name="image"
                   placeholder="サムネイルURL"
-                  value={press.image[0]}
+                  value={press.image[1] ? press.image[1] : press.image[0]}
                   onChange={onChange}
                 />
               </Form.Group>
