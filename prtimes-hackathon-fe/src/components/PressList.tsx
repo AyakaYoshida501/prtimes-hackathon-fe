@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 type Press = {
   id: number;
+  _id?: number;
   title: string;
   description: string;
   image: string;
@@ -17,6 +18,7 @@ type Props = {
 export default function PressList({ data }: Props): React.ReactElement {
   const router = useRouter();
   const jump = (id: number) => {
+    if (!id) return;
     router.push(`/press_release/${id}`);
   };
 
@@ -38,12 +40,17 @@ export default function PressList({ data }: Props): React.ReactElement {
         (d) => (
           console.log(d),
           (
-            <Col key={d.id} md={4} className="mb-3" onClick={() => jump(d.id)}>
+            <Col
+              key={d._id}
+              md={4}
+              className="mb-3 col-4"
+              onClick={() => jump(d._id ? d._id : d.id)}
+            >
               <Card>
                 <Ratio aspectRatio="16x9">
                   <Card.Img
                     variant="top"
-                    src={d.image ? d.image[0] : "/images/empty.jpg"}
+                    src={d.image ? d.image[0] : d.image[1]}
                   />
                 </Ratio>
                 <Card.Body>

@@ -12,33 +12,39 @@ export default function PressDetail() {
   const [press, setPress] = useState<PressData>();
   const [podCast, setPodCast] = useState<PodCast>();
   const params = useParams();
-  const id = params.id;
-  const getPressReleases = async () => {
-    try {
-      const pressData = await fetch(
-        `https://racer-mutual-virtually.ngrok-free.app//press_release/pressreleases/${id}`
-      );
-      if (!pressData.ok) {
-        throw new Error("サーバーエラーが発生しました");
-      }
-      const press = await pressData.json();
-      const podcastRes = await fetch(
-        `https://article-to-podcast-90199894008.asia-northeast1.run.app/podcasts/${id}`
-      );
-      if (!podcastRes.ok) {
-        throw new Error("podcast取得時にサーバーエラーが発生しました");
-      }
-      const podcast = await podcastRes.json();
-      setPodCast(podcast);
-      setPress(press);
-    } catch (e) {
-      console.error(e);
-      alert("データの取得に失敗しました");
-    }
-  };
 
   useEffect(() => {
-    getPressReleases();
+    (async () => {
+      try {
+        const id = params.id;
+        const pressData = await fetch(
+          `https://racer-mutual-virtually.ngrok-free.app/press_releases/${id}`,
+          {
+            method: "GET",
+            headers: new Headers({
+              "ngrok-skip-browser-warning": "69420",
+            }),
+          }
+        );
+        if (!pressData.ok) {
+          throw new Error("サーバーエラーが発生しました");
+        }
+        const press = await pressData.json();
+        setPress(press);
+
+        const podcastRes = await fetch(
+          `https://article-to-podcast-90199894008.asia-northeast1.run.app/podcasts/${id}`
+        );
+        if (!podcastRes.ok) {
+          throw new Error("podcast取得時にサーバーエラーが発生しました");
+        }
+        const podcast = await podcastRes.json();
+        setPodCast(podcast);
+      } catch (e) {
+        console.error(e);
+        alert("データの取得に失敗しました");
+      }
+    })();
   }, []);
 
   if (!press) {
