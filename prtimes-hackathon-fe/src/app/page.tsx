@@ -18,7 +18,7 @@ export default async function TopPage() {
 
 async function getPressReleases() {
   const res = await fetch(
-    "https://racer-mutual-virtually.ngrok-free.app//press_release"
+    "https://racer-mutual-virtually.ngrok-free.app/press_releases"
   );
   if (!res.ok) {
     throw new Error("サーバーエラーが発生しました");

@@ -31,7 +31,7 @@ export default function PressList({ data }: Props): React.ReactElement {
       {data.map((d) => (
         <Col key={d.id} md={4} className="mb-3" onClick={() => jump(d.id)}>
           <Card>
-            <Card.Img variant="top" src={d.image} />
+            <Card.Img variant="top" src={d.image} width="30%" height="30%" />
             <Card.Body>
               <Card.Title className="fs-6 fw-bold">{d.title}</Card.Title>
               <Card.Text>{makeDescription(d.description)}</Card.Text>

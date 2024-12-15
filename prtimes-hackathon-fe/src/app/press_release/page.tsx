@@ -21,7 +21,7 @@ export default function PressRelease() {
   const makePressRelease = async () => {
     try {
       const res = await fetch(
-        "https://racer-mutual-virtually.ngrok-free.app//press_release/pressreleases",
+        "https://racer-mutual-virtually.ngrok-free.app/press_releases",
         {
           method: "POST",
           headers: {
@@ -37,6 +37,7 @@ export default function PressRelease() {
         }
       );
       if (!res.ok) {
+        console.log(res);
         throw new Error("サーバーエラーが発生しました");
       }
       const data: PressData = await res.json();

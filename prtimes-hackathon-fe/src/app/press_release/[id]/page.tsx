@@ -4,12 +4,13 @@ import { Col, Row } from "react-bootstrap";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { PressData } from "../../../models/press_response";
+import { PodCast } from "../../../models/podcast_response";
 import Image from "../../../components/Image";
 import { AudioPlayer } from "../../../components/AudioPlayer";
 
 export default function PressDetail() {
   const [press, setPress] = useState<PressData>();
-  const [podcastUrl, setPodcastUrl] = useState<string>("");
+  const [podCast, setPodCast] = useState<PodCast>();
   const params = useParams();
   const id = params.id;
   const getPressReleases = async () => {
@@ -28,7 +29,7 @@ export default function PressDetail() {
         throw new Error("podcast取得時にサーバーエラーが発生しました");
       }
       const podcast = await podcastRes.json();
-      setPodcastUrl(podcast);
+      setPodCast(podcast);
       setPress(press);
     } catch (e) {
       console.error(e);
@@ -65,7 +66,11 @@ export default function PressDetail() {
           </p>
         ))}
       </Col>
-      <AudioPlayer url={podcastUrl} className="mb-3" title="ポッドキャスト" />
+      <AudioPlayer
+        url={podCast ? podCast.audio_url : ""}
+        className="mb-3"
+        title="ポッドキャスト"
+      />
     </Row>
   );
 }
