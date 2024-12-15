@@ -72,11 +72,8 @@ export default function PressDetail() {
           </p>
         ))}
       </Col>
-      <AudioPlayer
-        url={podCast ? podCast.audio_url : ""}
-        className="mb-3"
-        title="ポッドキャスト"
-      />
+      {podCast?.summary && <p className="fw-bold mt-3">{podCast.summary}</p>}
+      <AudioPlayer url={podCast ? podCast.audio_url : ""} className="mb-3" />
     </Row>
   );
 }
