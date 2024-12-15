@@ -18,10 +18,14 @@ export default function PressRelease() {
     sns_url: "",
   });
   const [podcastUrl, setPodcastUrl] = useState<string>("");
-
-  console.log(press);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isPodcastLoading, setIsPodcastLoading] = useState<boolean>(false);
+  const deleteCommant = (url: string) => {
+    return url.replace(/,/g, "");
+  };
   const makePressRelease = async () => {
     try {
+      setIsLoading(true);
       const res = await fetch(
         "https://racer-mutual-virtually.ngrok-free.app/press_releases",
         {
@@ -42,7 +46,11 @@ export default function PressRelease() {
         throw new Error("サーバーエラーが発生しました");
       }
       const data: PressData = await res.json();
+      if (data.image) {
+        data.image = deleteCommant(data.image);
+      }
       setPress(data);
+      setIsLoading(false);
     } catch (e) {
       console.error(e);
       alert("入稿に失敗しました");
@@ -61,6 +69,7 @@ export default function PressRelease() {
   };
 
   const makePodcast = async () => {
+    setIsPodcastLoading(true);
     try {
       const res = await fetch(
         "https://article-to-podcast-90199894008.asia-northeast1.run.app/podcasts",
@@ -81,6 +90,7 @@ export default function PressRelease() {
       }
       const data = await res.json();
       setPodcastUrl(data.audio_url);
+      setIsPodcastLoading(false);
     } catch (e) {
       console.error(e);
       alert("登録に失敗しました");
@@ -104,6 +114,13 @@ export default function PressRelease() {
                   onChange={onChange}
                 />
               </Form.Group>
+              {isLoading && (
+                <Row>
+                  <Col>
+                    <div>Loading...</div>
+                  </Col>
+                </Row>
+              )}
               <Form.Group className="m-3">
                 <Form.Label>タイトル</Form.Label>
                 <Form.Control
@@ -152,6 +169,13 @@ export default function PressRelease() {
         <Card.Header>PodCast登録</Card.Header>
         <Row className="m-3">
           <Col>プレスリリースから作成</Col>
+          {isPodcastLoading && (
+            <Row>
+              <Col>
+                <div>Loading...</div>
+              </Col>
+            </Row>
+          )}
           <Col className="d-flex justify-content-end">
             <CustomButton
               variant="primary"

@@ -39,7 +39,7 @@ export default function PressDetail() {
           throw new Error("podcast取得時にサーバーエラーが発生しました");
         }
         const podcast = await podcastRes.json();
-        setPodCast(podcast);
+        setPodCast(podcast[0]);
       } catch (e) {
         console.error(e);
         alert("データの取得に失敗しました");
