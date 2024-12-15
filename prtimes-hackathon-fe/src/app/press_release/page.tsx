@@ -130,7 +130,7 @@ export default function PressRelease() {
                 <Form.Control
                   as="textarea"
                   name="description"
-                  rows={5}
+                  rows={10}
                   placeholder="記事内容"
                   value={press.description}
                   onChange={onChange}
