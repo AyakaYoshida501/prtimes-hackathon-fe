@@ -20,9 +20,6 @@ export default function PressRelease() {
   const [podcastUrl, setPodcastUrl] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isPodcastLoading, setIsPodcastLoading] = useState<boolean>(false);
-  const deleteCommant = (url: string) => {
-    return url.replace(/,/g, "");
-  };
   const makePressRelease = async () => {
     try {
       setIsLoading(true);
@@ -46,9 +43,6 @@ export default function PressRelease() {
         throw new Error("サーバーエラーが発生しました");
       }
       const data: PressData = await res.json();
-      if (data.image) {
-        data.image = deleteCommant(data.image);
-      }
       setPress(data);
       setIsLoading(false);
     } catch (e) {
