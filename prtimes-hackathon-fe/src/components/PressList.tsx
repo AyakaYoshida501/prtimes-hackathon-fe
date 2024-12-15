@@ -36,34 +36,26 @@ export default function PressList({ data }: Props): React.ReactElement {
   };
   return (
     <Row>
-      {data.map(
-        (d) => (
-          console.log(d),
-          (
-            <Col
-              key={d._id}
-              md={4}
-              className="mb-3 col-4"
-              onClick={() => jump(d._id ? d._id : d.id)}
-            >
-              <Card>
-                <Ratio aspectRatio="16x9">
-                  <Card.Img
-                    variant="top"
-                    src={d.image ? d.image[0] : d.image[1]}
-                  />
-                </Ratio>
-                <Card.Body>
-                  <Card.Title className="fs-6 fw-bold">
-                    {makeTitle(d.title)}
-                  </Card.Title>
-                  <Card.Text>{makeDescription(d.description)}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          )
-        )
-      )}
+      {data.map((d) => (
+        <Col
+          key={d._id}
+          md={4}
+          className="mb-3 col-4"
+          onClick={() => jump(d._id ? d._id : d.id)}
+        >
+          <Card>
+            <Ratio aspectRatio="16x9">
+              <Card.Img variant="top" src={d.image ? d.image[0] : d.image[1]} />
+            </Ratio>
+            <Card.Body>
+              <Card.Title className="fs-6 fw-bold">
+                {makeTitle(d.title)}
+              </Card.Title>
+              <Card.Text>{makeDescription(d.description)}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      ))}
     </Row>
   );
 }
