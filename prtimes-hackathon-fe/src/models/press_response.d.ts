@@ -4,7 +4,7 @@ export type PressData = {
   title: string;
   description: string;
   thumbnailUrl: string;
-  x_user_name?: string;
+  sns_url?: string;
 };
 
 export type Press = PressData[];

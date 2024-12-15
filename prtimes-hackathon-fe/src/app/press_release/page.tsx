@@ -14,30 +14,34 @@ export default function PressRelease() {
     title: "",
     description: "",
     thumbnailUrl: "",
-    x_user_name: "",
+    sns_url: "",
   });
   const [podcastUrl, setPodcastUrl] = useState<string>("");
 
   const makePressRelease = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/pressreleases", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: press.title,
-          uid: press.uid,
-          description: press.description,
-          thumbnail: press.thumbnailUrl,
-        }),
-      });
+      const res = await fetch(
+        "https://racer-mutual-virtually.ngrok-free.app//press_release/pressreleases",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: press.title,
+            uid: press.uid,
+            description: press.description,
+            thumbnail: press.thumbnailUrl,
+          }),
+        }
+      );
       if (!res.ok) {
         throw new Error("サーバーエラーが発生しました");
       }
       const data: PressData = await res.json();
       setPress(data);
     } catch (e) {
+      console.error(e);
       alert("入稿に失敗しました");
     }
   };
@@ -67,12 +71,13 @@ export default function PressRelease() {
       const data = await res.json();
       setPodcastUrl(data.url);
     } catch (e) {
+      console.error(e);
       alert("登録に失敗しました");
     }
   };
 
-  const uploadMp3 = async (file) => {
-    if (file.length === 0) {
+  const uploadMp3 = async (file: File) => {
+    if (!file) {
       return;
     }
     try {
@@ -89,6 +94,7 @@ export default function PressRelease() {
         throw new Error("サーバーエラーが発生しました");
       }
     } catch (e) {
+      console.error(e);
       alert("アップロードに失敗しました");
     }
   };
@@ -100,12 +106,12 @@ export default function PressRelease() {
         <Row>
           <Col>
             <Form.Group className="m-3">
-              <Form.Label>Xアカウントのユーザー名</Form.Label>
+              <Form.Label>Xの投稿URL</Form.Label>
               <Form.Control
                 type="text"
                 name="user_name"
-                placeholder="ユーザー名を入力"
-                value={press.x_user_name}
+                placeholder="投稿URL"
+                value={press.sns_url}
                 onChange={onChange}
               />
             </Form.Group>
@@ -169,9 +175,12 @@ export default function PressRelease() {
               <Form.Control
                 type="file"
                 name="file"
-                onChange={(e) =>
-                  uploadMp3((e.target as HTMLInputElement).files)
-                }
+                onChange={(e) => {
+                  const files = (e.target as HTMLInputElement).files;
+                  if (files && files.length > 0) {
+                    uploadMp3(files[0]);
+                  }
+                }}
               />
             </Form.Group>
           </Col>
@@ -179,10 +188,7 @@ export default function PressRelease() {
             <CustomButton variant="primary" text="作成" />
           </Col>
         </Row>
-        <AudioPlayer
-          url="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-          title="作成されたポッドキャスト"
-        />
+        <AudioPlayer url={podcastUrl} title="作成されたポッドキャスト" />
       </Card>
     </>
   );

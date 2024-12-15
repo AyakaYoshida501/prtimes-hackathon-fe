@@ -4,6 +4,7 @@ type Props = {
   src: string;
   width?: string;
   alt: string;
+  className?: string;
 };
 
 export default function Image({ src, ...props }: Props): React.ReactElement {
